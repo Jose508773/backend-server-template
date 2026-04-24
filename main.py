@@ -1,8 +1,11 @@
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+
+BASE_DIR = Path(__file__).parent
 
 
 
@@ -19,7 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="public"), name="static")
+app.mount("/static", StaticFiles(directory=BASE_DIR / "public"), name="static")
 
 
 class SurveyEntry(BaseModel):
@@ -30,8 +33,7 @@ class SurveyEntry(BaseModel):
 
 @app.get("/", response_class=HTMLResponse)
 def root():
-    with open("index.html") as f:
-        return f.read()
+    return (BASE_DIR / "index.html").read_text()
 
 
 users = []

@@ -11,7 +11,6 @@ btn.addEventListener('click', async () => {
         });
 
         if (!response.ok) throw new Error(`Server error: ${response.status}`);
-
         const data = await response.json();
         msg.textContent = `Success: ${JSON.stringify(data)}`;
     } catch (error) {
