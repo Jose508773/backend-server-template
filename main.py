@@ -33,6 +33,11 @@ def root():
     return (BASE_DIR / "index.html").read_text()
 
 
+@app.get("/api/hello")
+def hello():
+    return {"message": "hello its working"}
+
+
 users = []
 
 @app.post("/survey")
