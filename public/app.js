@@ -6,9 +6,7 @@ btn.addEventListener('click', async () => {
     msg.textContent = 'Loading...';
 
     try {
-        const response = await fetch('https://backend-server-template.vercel.app/api/endpoint', {
-            method: 'GET',
-        });
+        const response = await fetch('/api/hello');
 
         if (!response.ok) throw new Error(`Server error: ${response.status}`);
         const data = await response.json();
