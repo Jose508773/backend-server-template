@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel  # Pydantic = FastAPI's data validation engine
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
 
 
@@ -12,10 +14,12 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins; restrict to your domain in production
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory="public"), name="static")
 
 
 class SurveyEntry(BaseModel):
@@ -24,10 +28,10 @@ class SurveyEntry(BaseModel):
 
 
 
-#alter the orginal template delete the html and rout to a blank route / and return a json response instead of html
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 def root():
-    return {"message": "Hello from FastAPI on Vercel!"}
+    with open("index.html") as f:
+        return f.read()
 
 
 users = []
